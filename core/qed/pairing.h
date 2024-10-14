@@ -1836,7 +1836,7 @@ public:
       )
   {
 
-    // build pointer map of types to containers; used as a helper to access particle tyeps
+    // build pointer map of types to containers; used as a helper to access particle types
     std::map<std::string, ConPtr> cons;
     for(auto&& con : tile.containers) cons.emplace(con.type, &con );
 

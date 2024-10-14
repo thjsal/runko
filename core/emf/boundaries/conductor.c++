@@ -141,15 +141,15 @@ void emf::Conductor<D>::insert_em(
     //--------------------------------------------------
     // bx
     auto r1  = coord.bx().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-    auto bxd = B0*dipole(r1); // diple field
+    auto bxd = B0*dipole(r1); // dipole field
 
     // by
     auto r2  = coord.by().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-    auto byd = B0*dipole(r2); // diple field
+    auto byd = B0*dipole(r2); // dipole field
 
     // bz
     auto r3  = coord.bz().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-    auto bzd = B0*dipole(r3); // diple field
+    auto bzd = B0*dipole(r3); // dipole field
 
     gs.bx(i,j,k) = bxd(0);
     gs.by(i,j,k) = byd(1);
@@ -222,7 +222,7 @@ void emf::Conductor<D>::insert_em(
                                    
       // TODO define rotating electric field inside star
       auto r  = coord.ex().vec(iglob, 0.0f, 0.0f, D); // cartesian position vector in "star's coordinates"
-      auto bd = B0*dipole(r); // diple field
+      auto bd = B0*dipole(r); // dipole field
       auto h  = abs(r(0)); // cylindrical coordinate system height
                              
       auto s  = 1.0f - shape( h, radius, delta); // height smoothing parameter
@@ -383,21 +383,21 @@ void emf::Conductor<D>::update_b(
       //--------------------------------------------------
       // bx
       auto r1  = coord.bx().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-      auto bxd = B0*dipole(r1); // diple field
+      auto bxd = B0*dipole(r1); // dipole field
       auto h1  = abs(r1(D-1)); // cylindrical coordinate system height
       //auto sx  = shape( norm(r1), radius + b_offset, delta); // radial smoothing parameter
       auto sx  = shape( h1, radius + b_offset, delta); // radial smoothing parameter
 
       // by
       auto r2  = coord.by().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-      auto byd = B0*dipole(r2); // diple field
+      auto byd = B0*dipole(r2); // dipole field
       auto h2  = abs(r2(D-1)); // cylindrical coordinate system height
       //auto sy  = shape( norm(r2), radius + b_offset, delta); // radial smoothing parameter
       auto sy  = shape( h2, radius + b_offset, delta); // radial smoothing parameter
 
       // bz
       auto r3  = coord.bz().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-      auto bzd = B0*dipole(r3); // diple field
+      auto bzd = B0*dipole(r3); // dipole field
       auto h3  = abs(r3(D-1)); // cylindrical coordinate system height
       //auto sz  = shape( norm(r3), radius + b_offset, delta); // radial smoothing parameter
       auto sz  = shape( h3, radius + b_offset, delta); // radial smoothing parameter
@@ -452,17 +452,17 @@ void emf::Conductor<D>::update_b(
       //--------------------------------------------------
       // bx
       auto r1    = coord.bx().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-      auto bxd   = B0*dipole(r1); // diple field
+      auto bxd   = B0*dipole(r1); // dipole field
       auto rcyl1 = (D == 2) ? norm1d(r1) : norm2d(r1); // cylindrical radius
 
       // by
       auto r2    = coord.by().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-      auto byd   = B0*dipole(r2); // diple field
+      auto byd   = B0*dipole(r2); // dipole field
       auto rcyl2 = (D == 2) ? norm1d(r2) : norm2d(r2); // cylindrical radius
 
       // bz
       auto r3    = coord.bz().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-      auto bzd   = B0*dipole(r3); // diple field
+      auto bzd   = B0*dipole(r3); // dipole field
       auto rcyl3 = (D == 2) ? norm1d(r3) : norm2d(r3); // cylindrical radius
 
       //--------------------------------------------------
@@ -518,15 +518,15 @@ void emf::Conductor<D>::update_b(
           //--------------------------------------------------
           // bx
           auto r1  = coord.bx().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto bxd = B0*dipole(r1); // diple field
+          auto bxd = B0*dipole(r1); // dipole field
 
           // by
           auto r2  = coord.by().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto byd = B0*dipole(r2); // diple field
+          auto byd = B0*dipole(r2); // dipole field
 
           // bz
           auto r3  = coord.bz().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto bzd = B0*dipole(r3); // diple field
+          auto bzd = B0*dipole(r3); // dipole field
 
           //--------------------------------------------------
           // ver 1; tanh profile
@@ -579,15 +579,15 @@ void emf::Conductor<D>::update_b(
           //--------------------------------------------------
           // bx
           auto r1  = coord.bx().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto bxd = B0*dipole(r1); // diple field
+          auto bxd = B0*dipole(r1); // dipole field
 
           // by
           auto r2  = coord.by().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto byd = B0*dipole(r2); // diple field
+          auto byd = B0*dipole(r2); // dipole field
 
           // bz
           auto r3  = coord.bz().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto bzd = B0*dipole(r3); // diple field
+          auto bzd = B0*dipole(r3); // dipole field
 
           //--------------------------------------------------
           // ver 1; tanh profile
@@ -635,15 +635,15 @@ void emf::Conductor<D>::update_b(
           //--------------------------------------------------
           // bx
           auto r1  = coord.bx().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto bxd = B0*dipole(r1); // diple field
+          auto bxd = B0*dipole(r1); // dipole field
 
           // by
           auto r2  = coord.by().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto byd = B0*dipole(r2); // diple field
+          auto byd = B0*dipole(r2); // dipole field
 
           // bz
           auto r3  = coord.bz().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto bzd = B0*dipole(r3); // diple field
+          auto bzd = B0*dipole(r3); // dipole field
 
           //--------------------------------------------------
           // sides
@@ -969,7 +969,7 @@ void emf::Conductor<D>::update_e(
                                    
       // rotating electric field inside star
       auto r  = coord.ex().vec(iglob, 0.0f, 0.0f, D); // cartesian position vector in "star's coordinates"
-      auto bd = B0*dipole(r); // diple field
+      auto bd = B0*dipole(r); // dipole field
       auto h  = abs(r(0)); // cylindrical coordinate system height
                              
       auto s  = shape( h, radius, delta); // height smoothing parameter
@@ -1009,7 +1009,7 @@ void emf::Conductor<D>::update_e(
           //--------------------------------------------------
           // ex
           auto r1  = coord.ex().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto bxd = B0*dipole(r1); // diple field
+          auto bxd = B0*dipole(r1); // dipole field
           auto h1  = abs(r1(D-1)); // cylindrical coordinate system height
           //auto sx  = shape( norm(r1), radius, delta); // radial smoothing parameter
           auto sx  = shape( h1, radius, delta); // height smoothing parameter
@@ -1024,7 +1024,7 @@ void emf::Conductor<D>::update_e(
           //--------------------------------------------------
           // ey
           auto r2  = coord.ey().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto byd = B0*dipole(r2); // diple field
+          auto byd = B0*dipole(r2); // dipole field
           auto h2  = abs(r2(D-1)); // cylindrical coordinate system height
 
           auto sy  = shape( h2, radius, delta); // height smoothing parameter
@@ -1039,7 +1039,7 @@ void emf::Conductor<D>::update_e(
           //--------------------------------------------------
           // ez
           auto r3  = coord.ez().vec(iglob, jglob, kglob, D); // cartesian position vector in "star's coordinates"
-          auto bzd = B0*dipole(r3); // diple field
+          auto bzd = B0*dipole(r3); // dipole field
           auto h3  = abs(r3(D-1)); // cylindrical coordinate system height
           //auto sz  = shape( norm(r3), radius, delta); // radial smoothing parameter
           auto sz  = shape( h3, radius, delta); // height smoothing parameter

@@ -12,7 +12,7 @@ Basic usage
 
 The files have an `.ini` suffix and a simple structure of `parameter: value`. When fed into the drivers, Runko will automatically parse the file and construct a `Configuration` object, typically called `conf`. Any parameter in the configuration file gets turned into `conf.parameter` with a value of `value`; this makes it easy to add any new user-defined parameters to the driver scripts.
 
-During the construction of `conf` the configuratoin file is also typically passed through a problem-spesific `init_problem.py` file that introduces a specialiced `Configuration_Problem` derived from the base class. It can do additional manipulation on the configuration file parameters before resulting in a `conf` object.
+During the construction of `conf` the configuration file is also typically passed through a problem-specific `init_problem.py` file that introduces a specialiced `Configuration_Problem` derived from the base class. It can do additional manipulation on the configuration file parameters before resulting in a `conf` object.
 
 
 Typical parameters 
@@ -27,7 +27,6 @@ Typical default parameters found in configuration files include:
 
 - [io]: analysis
    - `interval`: No. of steps between analysis output files written
-   - `stride`: thinning factor for analysis grids; results in saving only every `st`:th grid point in each dimension (typically either `1` for complete data snapshots or tile length for maximum compression)
    - `stride`: thinning factor for analysis grids; results in saving only every `st`:th grid point in each dimension (typically either `1` for complete data snapshots or tile length for maximum compression)
 
 - [io]: deep io
