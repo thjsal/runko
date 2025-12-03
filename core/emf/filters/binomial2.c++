@@ -12,7 +12,7 @@
 #endif
 
 
-/// single 2D 2nd order 3-point binomial filter 
+/// single 1D 2nd order 3-point binomial filter 
 template<>
 void emf::Binomial2<1>::solve(
     emf::Tile<1>& tile)
@@ -38,6 +38,7 @@ void emf::Binomial2<1>::solve(
   {
     for(int is=-1; is<=1; is++) {
       tmp(i-H,0,0) += jj(i+is-H, 0, 0)*C1[is+1];
+      //tmp(i) += jj(i+is)*C1[is+1]; // NOTE: raw 1d indexing does not work
     }
   };
     

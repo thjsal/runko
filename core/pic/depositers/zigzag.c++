@@ -31,8 +31,8 @@ void pic::ZigZag<D,V>::solve( pic::Tile<D>& tile )
 
   for(auto&& con: tile.containers) {
 
-    const double c = tile.cfl;    // speed of light
-    const double q = con.q; // charge
+    const float c = tile.cfl;    // speed of light
+    const float q = con.q; // charge
 
     // skip particle species if zero charge
     if (q == 0.0) continue;
@@ -50,23 +50,21 @@ void pic::ZigZag<D,V>::solve( pic::Tile<D>& tile )
                 ){
 
       //--------------------------------------------------
-      // NOTE: performing velocity calculations via doubles to retain accuracy
-      double u = con.vel(0,n);
-      double v = con.vel(1,n);
-      double w = con.vel(2,n);
-
-      double invgam = 1.0/sqrt(1.0 + u*u + v*v + w*w);
+      float u = con.vel(0,n);
+      float v = con.vel(1,n);
+      float w = con.vel(2,n);
+      float invgam = 1.0/sqrt(1.0 + u*u + v*v + w*w);
 
       //--------------------------------------------------
       // new (normalized) location, x_{n+1}
-      double x2 = D >= 1 ? con.loc(0,n) - mins[0] : con.loc(0,n);
-      double y2 = D >= 2 ? con.loc(1,n) - mins[1] : con.loc(1,n);
-      double z2 = D >= 3 ? con.loc(2,n) - mins[2] : con.loc(2,n);
+      float x2 = D >= 1 ? con.loc(0,n) - mins[0] : 0.0f;
+      float y2 = D >= 2 ? con.loc(1,n) - mins[1] : 0.0f;
+      float z2 = D >= 3 ? con.loc(2,n) - mins[2] : 0.0f;
 
       // previos location, x_n
-      double x1 = x2 - u*invgam*c;
-      double y1 = y2 - v*invgam*c;
-      double z1 = z2 - w*invgam*c; 
+      float x1 = x2 - u*invgam*c;
+      float y1 = y2 - v*invgam*c;
+      float z1 = z2 - w*invgam*c; 
 
       //--------------------------------------------------
       int i1  = D >= 1 ? floor(x1) : 0;
@@ -77,56 +75,59 @@ void pic::ZigZag<D,V>::solve( pic::Tile<D>& tile )
       int k2  = D >= 3 ? floor(z2) : 0;
 
       // relay point; +1 is equal to +\Delta x
-      double xr = min( double(min(i1,i2)+1), max( double(max(i1,i2)), double(0.5*(x1+x2)) ) );
-      double yr = min( double(min(j1,j2)+1), max( double(max(j1,j2)), double(0.5*(y1+y2)) ) );
-      double zr = min( double(min(k1,k2)+1), max( double(max(k1,k2)), double(0.5*(z1+z2)) ) );
+      float xr = min( float(min(i1,i2)+1), max( float(max(i1,i2)), float(0.5f*(x1+x2)) ) );
+      float yr = min( float(min(j1,j2)+1), max( float(max(j1,j2)), float(0.5f*(y1+y2)) ) );
+      float zr = min( float(min(k1,k2)+1), max( float(max(k1,k2)), float(0.5f*(z1+z2)) ) );
 
-      //--------------------------------------------------
-      // +q since - sign is already included in the Ampere's equation
-      //q = weight*qe;
-      double Fx1 = +q*(xr - x1);
-      double Fy1 = +q*(yr - y1);
-      double Fz1 = +q*(zr - z1);
-      
-      double Fx2 = +q*(x2 - xr);
-      double Fy2 = +q*(y2 - yr);
-      double Fz2 = +q*(z2 - zr);
+      ////--------------------------------------------------
+      //// +q since - sign is already included in the Ampere's equation
+      ////q = weight*qe;
+      float Fx1 = +q*con.wgt(n)*(xr - x1);
+      float Fy1 = +q*con.wgt(n)*(yr - y1);
+      float Fz1 = +q*con.wgt(n)*(zr - z1);
 
+      float Fx2 = +q*con.wgt(n)*(x2 - xr);
+      float Fy2 = +q*con.wgt(n)*(y2 - yr);
+      float Fz2 = +q*con.wgt(n)*(z2 - zr);
 
-      double Wx1 = D >= 1 ? 0.5*(x1 + xr) - i1 : 0.0;
-      double Wy1 = D >= 2 ? 0.5*(y1 + yr) - j1 : 0.0;
-      double Wz1 = D >= 3 ? 0.5*(z1 + zr) - k1 : 0.0;
+      float Wx1 = D >= 1 ? 0.5f*(x1 + xr) - i1 : 0.0f;
+      float Wy1 = D >= 2 ? 0.5f*(y1 + yr) - j1 : 0.0f;
+      float Wz1 = D >= 3 ? 0.5f*(z1 + zr) - k1 : 0.0f;
 
-      double Wx2 = D >= 1 ? 0.5*(x2 + xr) - i2 : 0.0;
-      double Wy2 = D >= 2 ? 0.5*(y2 + yr) - j2 : 0.0;
-      double Wz2 = D >= 3 ? 0.5*(z2 + zr) - k2 : 0.0;
-
+      float Wx2 = D >= 1 ? 0.5f*(x2 + xr) - i2 : 0.0f;
+      float Wy2 = D >= 2 ? 0.5f*(y2 + yr) - j2 : 0.0f;
+      float Wz2 = D >= 3 ? 0.5f*(z2 + zr) - k2 : 0.0f;
 
      //-------------------------------------------------- 
      // check outflow
+#if DEBUG
+       
+      const int H = 3;
+      if((i1 < -H || i1 >= maxs[0] + H-1 ||
+          i2 < -H || i2 >= maxs[0] + H-1 ||
+          j1 < -H || j1 >= maxs[1] + H-1 ||
+          j2 < -H || j2 >= maxs[1] + H-1 ||
+          k1 < -H || k1 >= maxs[2] + H-1 ||
+          k2 < -H || k2 >= maxs[2] + H-1 ) ){
+          //&& con.wgt(n) > 0.0) {
 
-      // debug guard
-      if( i1 < -3 || i1 + 1 > maxs[0] + 2 ||
-          i2 < -3 || i2 + 1 > maxs[0] + 2 ||
-          j1 < -3 || j1 + 1 > maxs[1] + 2 ||
-          j2 < -3 || j2 + 1 > maxs[1] + 2 ||
-          k1 < -3 || k1 + 1 > maxs[2] + 2 ||
-          k2 < -3 || k2 + 1 > maxs[2] + 2) {
-
-        std::cerr << "ERROR ZIGZAG:" << std::endl;
-        std::cerr << " i1 " << i1 << " i2 " << i2;
-        std::cerr << " j1 " << j1 << " j2 " << j2;
-        std::cerr << " k1 " << k1 << " k2 " << k2;
-        std::cerr << " x1 " << x1 << " x2 " << x2;
-        std::cerr << " y1 " << y1 << " y2 " << y2;
-        std::cerr << " z1 " << z1 << " z2 " << z2;
-        std::cerr << " v " << u << " " << v << " " << w << std::endl;
+        std::cerr << "ERROR ZIGZAG:" 
+                  << " i1 " << i1 << " i2 " << i2
+                  << " j1 " << j1 << " j2 " << j2
+                  << " k1 " << k1 << " k2 " << k2
+                  << " x1 " << x1 << " x2 " << x2
+                  << " y1 " << y1 << " y2 " << y2
+                  << " z1 " << z1 << " z2 " << z2
+                  << " v " << u << " " << v << " " << w 
+                  << " wgt " << con.wgt(n) << " info " << con.info(n) 
+                  << std::endl;
 
         // do not deposit anything
         Fx1 = 0.0, Fx2 = 0.0, Fy1 = 0.0, Fy2 = 0.0, Fz1 = 0.0, Fz2 = 0.0;
         i1=0, i2=0, j1=0, j2=0, k1=0, k2=0;
-        assert(false);
+        //assert(false);
       }
+#endif
 
       //--------------------------------------------------
       // one-dimensional indices
