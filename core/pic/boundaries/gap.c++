@@ -229,7 +229,7 @@ void pic::Gap<D>::update_b(
   // hard-coded left/star BC
   if( mins[0] < 1 ) {
     #pragma omp simd
-    for(int i=-halo; i<=halo; i++) {
+    for(int i=-halo; i<halo; i++) {
       gs.bx(i,0,0) = B(0.0f); 
       gs.by(i,0,0) = 0.0f; 
       gs.bz(i,0,0) = 0.0f; 
@@ -240,7 +240,7 @@ void pic::Gap<D>::update_b(
   // hard-coded right/const BC
   //if( maxs[0] > Nx-1 ) {
   //  #pragma omp simd
-  //  for(int i=tile.mesh_lengths[0]-halo; i<=tile.mesh_lengths[0]+halo; i++) {
+  //  for(int i=tile.mesh_lengths[0]-halo; i<tile.mesh_lengths[0]+halo; i++) {
   //    gs.bx(i,0,0) = B(0.0f); 
   //    gs.by(i,0,0) = 0.0; 
   //    gs.bz(i,0,0) = 0.0; 
@@ -318,7 +318,7 @@ void pic::Gap<D>::update_e(
   //  assert(i_r >= 0); // check that we are on the right tile
   //  //float ex_bc = gs.ex(i_r,0,0); // value at the edge
   //    
-  //  for(int i=i_r+1; i<=tile.mesh_lengths[0]+halo; i++) {
+  //  for(int i=i_r+1; i<tile.mesh_lengths[0]+halo; i++) {
   //    gs.ex(i,0,0) = 0.0f; //ex_bc; 
   //  }
   //}
@@ -328,7 +328,7 @@ void pic::Gap<D>::update_e(
   // hard-coded left (star) BC
   if( mins[0] < 1 ) {
     #pragma omp simd
-    for(int i=-halo; i<=halo; i++) {
+    for(int i=-halo; i<halo; i++) {
       gs.ex(i,0,0) = E(0.0f);
       gs.ey(i,0,0) = 0.0f; 
       gs.ez(i,0,0) = 0.0f; 
@@ -340,7 +340,7 @@ void pic::Gap<D>::update_e(
   // hard-coded right/vacuum BC
   if( maxs[0] >= Nx ) {
     #pragma omp simd
-    for(int i=tile.mesh_lengths[0]; i<=tile.mesh_lengths[0]+halo; i++) {
+    for(int i=tile.mesh_lengths[0]; i<tile.mesh_lengths[0]+halo; i++) {
       gs.ex(i,0,0) = E(0.0f); 
       gs.ey(i,0,0) = 0.0f; 
       gs.ez(i,0,0) = 0.0f; 
@@ -565,7 +565,7 @@ void pic::Gap<D>::update_j(
     //  << " i+1: " << gs.jx(i_r+1,0,0)
     //  << "\n";
 
-    for(int i=i_r+1; i<=tile.mesh_lengths[0]+halo; i++) {
+    for(int i=i_r+1; i<tile.mesh_lengths[0]+halo; i++) {
       gs.jx(i,0,0) = jx_bc; 
       gs.jy(i,0,0) = 0.0f; 
       gs.jz(i,0,0) = 0.0f; 
